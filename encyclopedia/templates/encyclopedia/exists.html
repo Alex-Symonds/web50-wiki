@@ -1,0 +1,10 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia: Page Exists
+{% endblock %}
+
+{% block body %}
+    <h1>Page Not Added: Already Exists</h1>
+    <p>There is already a page for <a href="{% url 'entry' title %">{{ title }}</a>, so your page has not been added.</p>
+{% endblock %}

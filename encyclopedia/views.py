@@ -4,7 +4,9 @@ from django.http import HttpResponseRedirect
 import random
 
 
-from . import util
+from . import util, myMarkdown
+
+
 
 
 def index(request):
@@ -20,14 +22,13 @@ def entry(request, title):
     if entry:
         return render(request, "encyclopedia/entry.html", {
             "title": title,
-            "entry_contents": entry
+            "entry_contents": myMarkdown.markdown_to_html(entry)
         })
 
     # Show an error page
     return render(request, "encyclopedia/error.html",{
         "title": title
     })
-
 
 
 def search(request):
@@ -81,4 +82,5 @@ def edit(request):
 
 def random_entry(request):
     all_entries = util.list_entries()
-    return HttpResponseRedirect(reverse("entry", kwargs={'title': all_entries[random.randint(0, len(all_entries)-1)]})) 
+    return HttpResponseRedirect(reverse("entry", kwargs={'title': all_entries[random.randint(0, len(all_entries)-1)]}))
+

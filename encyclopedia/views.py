@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+import random
 
 
 from . import util
@@ -10,6 +11,8 @@ def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
+
+
 
 def entry(request, title):
     # Grab the entry and display it
@@ -25,6 +28,8 @@ def entry(request, title):
         "title": title
     })
 
+
+
 def search(request):
     search_term = request.GET.get("q", "")
     
@@ -38,6 +43,8 @@ def search(request):
         "entries": [e for e in util.list_entries() if search_term.lower() in util.get_entry(e).lower()]
     })
 
+
+
 def create_new(request):
     # POST = try to add the new entry
     if request.method == "POST":
@@ -49,22 +56,29 @@ def create_new(request):
                 "title": new_input["new_title"]
             })
         
-        # Save it, then redirect the user to it
+        # Save it, then redirect the user to it (replace "\r" with "" to avoid unwanted newlines)
         util.save_entry(new_input["new_title"], new_input["new_content"].replace("\r", ""))
         return HttpResponseRedirect(reverse("entry", kwargs={'title': new_input["new_title"]}))
  
     # GET = show the create page
     return render(request, "encyclopedia/create.html")
 
-def edit(request):
 
+
+def edit(request):
+    # POST = Save the amended entry (replace "\r" with "" to avoid unwanted newlines)
     if request.method == "POST":
         util.save_entry(request.POST["edit_title"], request.POST["edit_content"].replace("\r", ""))
         return HttpResponseRedirect(reverse("entry", kwargs={'title': request.POST["edit_title"]}))       
 
+    # GET = Load the edit page with the selected article
     title = request.GET.get("t", "")
     return render(request, "encyclopedia/edit.html", {
         "title": title,
         "entry_contents": util.get_entry(title)
     })
 
+
+def random_entry(request):
+    all_entries = util.list_entries()
+    return HttpResponseRedirect(reverse("entry", kwargs={'title': all_entries[random.randint(0, len(all_entries)-1)]})) 

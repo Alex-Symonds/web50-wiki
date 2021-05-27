@@ -1,0 +1,11 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia: Error
+{% endblock %}
+
+{% block body %}
+    <h1>Entry Not Found</h1>
+    <p>Requested entry regarding "{{ title }}" was not found. :( </p>
+    <p>Perhaps you could write one?</p>
+{% endblock %}

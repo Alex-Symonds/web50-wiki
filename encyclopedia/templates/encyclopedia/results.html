@@ -1,0 +1,21 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia: Search Results
+{% endblock %}
+
+{% block body %}
+    <h1>Search results</h1>
+
+    <p>Entry titled "{{ search_term }}" was not found.</p>
+
+    <p>Entries containing "{{ search_term }}" within the contents:</p>
+    <ul>
+        {% for entry in entries %}
+            <li><a href="{% url 'entry' entry %}">{{ entry }}</a></li>
+        {% empty %}
+            <li>No pages contain "{{ search_term }}". :(</li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}

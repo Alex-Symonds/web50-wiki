@@ -1,0 +1,20 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia: Edit
+{% endblock %}
+
+{% block body %}
+    <h1>Edit</h1>
+    <p>For correct formatting and syntax, check <a href="https://help.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax">GitHub's Markdown guide</a>.</p>
+    <form action="{% url 'edit' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-section">
+            <input type=hidden value="{{ title }}" name="edit_title">
+            <textarea name="edit_content">{{ entry_contents }}</textarea>
+        </div>
+        <div class="form-section">
+            <input type="submit" value="Save Changes">
+        </div>
+    </form>
+{% endblock %}

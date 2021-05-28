@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 import random
+import markdown2
 
 
 from . import util
@@ -20,7 +21,7 @@ def entry(request, title):
     if entry:
         return render(request, "encyclopedia/entry.html", {
             "title": title,
-            "entry_contents": entry
+            "entry_contents": markdown2.markdown(entry)
         })
 
     # Show an error page

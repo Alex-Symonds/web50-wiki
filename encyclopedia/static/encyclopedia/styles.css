@@ -40,3 +40,13 @@ textarea {
 .form-section{
     clear: both;
 }
+
+#inputTitle{
+    width: 15rem;
+    margin-bottom: 10px;
+    margin-left: 7px;
+}
+
+#saveNew{
+    width: 7rem;
+}

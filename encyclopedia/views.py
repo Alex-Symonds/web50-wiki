@@ -9,6 +9,9 @@ from . import util
 
 
 def index(request):
+    """
+        Main page, with a list of entries.
+    """
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
     })
@@ -16,6 +19,9 @@ def index(request):
 
 
 def entry(request, title):
+    """
+        Page for a single entry.
+    """
     # Grab the entry and display it
     entry = util.get_entry(title)
     if entry:
@@ -32,6 +38,9 @@ def entry(request, title):
 
 
 def search(request):
+    """
+        Responds to a search by the user
+    """
     search_term = request.GET.get("q", "")
     
     # If the search term is the exact title of a page, redirect
@@ -47,6 +56,11 @@ def search(request):
 
 
 def create_new(request):
+    """
+        GET = Page for creating a new entry.
+        POST = Attempt to add the new entry and redirect the user to it.
+    """
+
     # POST = try to add the new entry
     if request.method == "POST":
         new_input = request.POST
@@ -67,6 +81,11 @@ def create_new(request):
 
 
 def edit(request):
+    """
+        GET = Page for editing an existing entry.
+        POST = Update database with the new entry.
+    """
+
     # POST = Save the amended entry (replace "\r" with "" to avoid unwanted newlines)
     if request.method == "POST":
         util.save_entry(request.POST["edit_title"], request.POST["edit_content"].replace("\r", ""))
@@ -81,5 +100,8 @@ def edit(request):
 
 
 def random_entry(request):
+    """
+        Redirect to a randomly chosen entry.
+    """
     all_entries = util.list_entries()
     return HttpResponseRedirect(reverse("entry", kwargs={'title': all_entries[random.randint(0, len(all_entries)-1)]})) 

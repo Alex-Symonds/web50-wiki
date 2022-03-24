@@ -7,5 +7,5 @@
 {% block body %}
     <h1>Entry Not Found</h1>
     <p>Requested entry regarding "{{ title }}" was not found. :( </p>
-    <p>Perhaps you could write one?</p>
+    <p>Perhaps you could <a href="{% url 'create' %}">create one?</a></p>
 {% endblock %}
